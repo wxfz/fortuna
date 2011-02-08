@@ -8,5 +8,4 @@ movement. There is of course a lot of SHA256 and AES gnashing in the background.
 Documentation is scant at this time, so drop me any questions at my GitHub
 inbox.
 
-This Fortuna was written to supply randomness to an All-Or-Nothing Transform library
-to be used in some of my other projects.
+This Fortuna was written to supply randomness to an All-Or-Nothing Transform ( "About AONT":http://en.wikipedia.org/wiki/All-or-nothing_transform ) library to be used in some of my other projects.
