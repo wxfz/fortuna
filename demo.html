@@ -1,0 +1,70 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                    "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+
+<script type="text/javascript" src="test/jquery-1.5.min.js"></script>
+<script type="text/javascript">
+var modules = "udon-1.0.0-min wxfz utf8 sha256 aes fortuna base64".split(" ");
+function dl(mod) {
+  document.write('<script type="text/javascript" src="js/'+mod+'.js"></'+'script>')
+}
+$.map(modules,dl);
+</script>
+
+</head>
+<body>
+<h1>wxfz's fortuna</h1>
+<p>My implementation of Fortuna
+(<a href="http://en.wikipedia.org/wiki/Fortuna_(PRNG)">See Wikipedia</a>) uses
+64-pools of entropy gathered from the browser's clock, mouse position and DOM
+content. Entropy is gathered also collected at random intervals and from mouse
+movement. What follows are 1000 random bytes and the entropy used to seed them.
+There is of course a lot of SHA256 and AES gnashing in the background.
+</p>
+<button onclick="churn1000()">New Sample</button>
+<div class="randbytes">
+</div>
+<p>
+The entropy values seen here are refreshed every five-seconds regardless of
+whether they have changed.
+</p>
+<div class="entropy"></div>
+
+<p>
+<a rel="license" href="http://creativecommons.org/licenses/by-nd/3.0/"><img alt="Creative Commons License" style="border-width:0;" src="http://i.creativecommons.org/l/by-nd/3.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/Text" property="dct:title" rel="dct:type">wxfz's fortuna</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://github.com/wxfz/fortuna" property="cc:attributionName" rel="cc:attributionURL">wxfz himself</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nd/3.0/">Creative Commons Attribution-NoDerivs 3.0 Unported License</a>.
+
+Includes software by others:
+<ul>
+  <li>AES, Base64, Utf8 implementation in JavaScript (c) Chris Veness 2005-2010
+  <li>Secure Hash Algorithm (SHA256) code by Angel Marin, Paul Johnston.
+  <li>Udon by Benedict Eastaugh
+  </ul>
+</p>
+
+<style type="text/css">
+.randbytes { border: 1px solid black; border-radius: 2em; padding: 1em; }
+.randbytes div { width: 3em; float: left; text-align: center; }
+.entropy { background-color: #ddd; padding: 1em; }
+</style>
+<script type="text/javascript">
+function churn() {
+  var rbyte = wxfz.fortuna.generate(1).charCodeAt(0);
+  $('.randbytes').append('<div>'+rbyte+'</div>');
+  dump_entropy();
+}
+function churn1000() {
+  $(".randbytes").empty();
+  var n = 1000;
+  while (n--) { churn(); }
+  $(".randbytes").append("<div style=\"float: none; clear: both\">&nbsp;</div>");
+}
+function dump_entropy() {
+    $(".entropy").empty().append(wxfz.fortuna._entropy.join(" "));
+}
+$(churn1000);
+setInterval(dump_entropy,5000);
+</script>
+</body>
+</html>
+
