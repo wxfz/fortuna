@@ -1,0 +1,10 @@
+h1. wxfz's fortuna
+
+My implementation of Fortuna ("See Wikipedia":http://en.wikipedia.org/wiki/Fortuna_(PRNG) ) uses
+64-pools of entropy gathered from the browser's clock, mouse position and DOM
+content. Entropy is gathered also collected at random intervals and from mouse
+movement. There is of course a lot of SHA256 and AES gnashing in the background.
+
+Documentation is scant at this time, so drop me any questions at my GitHub
+inbox.
+
