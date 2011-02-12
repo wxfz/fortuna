@@ -21,8 +21,14 @@ $.map(modules,dl);
 content. Entropy is gathered also collected at random intervals and from mouse
 movement. What follows are 1000 random bytes and the entropy used to seed them.
 There is of course a lot of SHA256 and AES gnashing in the background.
+
+</p><p><b>12 February 2011</b> &mdash; Added &chi;<sup>2</sup> test, parameters for
+how many bytes to try and a comparison with the browser's implementation of
+<code>Math.random()</code>. There are of course many other ways to test randomness&mdash;this is only one of them.
 </p>
-<button onclick="churn1000()">New Sample</button>
+Trials: <input type="q" value="1000"/>
+<button onclick="churn1000(fortuna_byte)">Fortuna</button>
+<button onclick="churn1000(browser_byte)">Math.random()</button>
 <div class="randbytes">
 </div>
 <p>
@@ -48,21 +54,43 @@ Includes software by others:
 .entropy { background-color: #ddd; padding: 1em; }
 </style>
 <script type="text/javascript">
-function churn() {
+function fortuna_byte() {
   var rbyte = wxfz.fortuna.generate(1).charCodeAt(0);
+  return rbyte;
+}
+function browser_byte() {
+  var rbyte = Math.floor(Math.random()*256+1);
+  return rbyte;
+}
+function churn(method) {
+  var rbyte = method();
   $('.randbytes').append('<div>'+rbyte+'</div>');
   dump_entropy();
+  return rbyte;
 }
-function churn1000() {
+function churn1000(method) {
   $(".randbytes").empty();
-  var n = 1000;
-  while (n--) { churn(); }
+  var q = $("input").val();
+  var n = q;
+  freq = {};
+  while (n--) {
+    y=churn(method);
+    freq[y] = freq[y]?freq[y]+1:1;
+  }
+  v=0;
+  var e = 1/256*q;
+  for (var i = 0; i < 256; i++) {
+    var o = freq[i]?freq[i]:0;
+    var r = (o-e)/Math.sqrt(e);
+    v += Math.pow(r,2)/q;
+  }
   $(".randbytes").append("<div style=\"float: none; clear: both\">&nbsp;</div>");
+  $(".randbytes").prepend("<div style=\"width: auto; float: none; \">Assuming 1/256 probability over "+q+" trials &chi;<sup>2</sup>="+v+"</div>");
 }
 function dump_entropy() {
     $(".entropy").empty().append(wxfz.fortuna._entropy.join(" "));
 }
-$(churn1000);
+$(function(){churn1000(browser_byte);});
 setInterval(dump_entropy,5000);
 </script>
 </body>
