@@ -1,10 +1,7 @@
 h1. wxfz's fortuna
 
-My implementation of Fortuna ("See Wikipedia":http://en.wikipedia.org/wiki/Fortuna_(PRNG) ) uses
-64-pools of entropy gathered from the browser's clock, mouse position and DOM
-content. Entropy is gathered also collected at random intervals and from mouse
-movement. There is of course a lot of SHA256 and AES gnashing in the background.
+My implementation of Fortuna ("See Wikipedia":http://en.wikipedia.org/wiki/Fortuna_(PRNG) ) uses 64-pools of entropy gathered from the browser's clock, mouse position and DOM content. Entropy is gathered also collected at random intervals and from mouse movement. There is of course a lot of SHA256 and AES gnashing in the background.
 
-Documentation is scant at this time, so drop me any questions at my GitHub
-inbox.
+Documentation is scant at this time, so drop me any questions at my GitHub inbox.
 
+This Fortuna was written to supply randomness to an All-Or-Nothing Transform ( "About AONT":http://en.wikipedia.org/wiki/All-or-nothing_transform ) library to be used in some of my other projects.
